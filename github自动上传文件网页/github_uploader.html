@@ -1,0 +1,1194 @@
+<html lang="zh-CN"><head><meta charset="utf-8">
+<title>GitHub 文件夹上传工具</title>
+<meta content="一键将本地文件夹上传到GitHub仓库，安全快速" name="description">
+<meta content="GitHub 文件夹上传工具" property="og:title">
+<meta content="一键将本地文件夹上传到GitHub仓库，安全快速" property="og:description">
+<meta content="GitHub 文件夹上传工具" property="twitter:title">
+<meta content="一键将本地文件夹上传到GitHub仓库，安全快速" property="twitter:description">
+<meta property="og:type" content="website">
+<meta content="summary_large_image" name="twitter:card">
+<meta content="width=device-width, initial-scale=1" name="viewport">
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link href="https://fonts.gstatic.com" rel="preconnect" crossorigin="anonymous">
+<script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://cdn.fonts.net">
+<script type="text/javascript" src="https://cdn.fonts.net/kit/5e9e77db-d601-40eb-b156-1ecc3d476023/5e9e77db-d601-40eb-b156-1ecc3d476023_enhanced.js" async=""></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.fonts.net/kit/5e9e77db-d601-40eb-b156-1ecc3d476023/5e9e77db-d601-40eb-b156-1ecc3d476023_enhanced.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Instrument+Serif:wght@400;500;600&display=swap">
+<style>
+h2 {
+font-size: 4rem !important;
+line-height: 1.1 !important;
+}
+h3 {
+font-size: 2rem !important;
+line-height: 1.1 !important;
+}
+.font-instrument-sans {
+font-family: 'Instrument Sans', sans-serif !important;
+}
+/* Glassmorphism Utilities */
+.glass-card {
+background: rgba(255, 255, 255, 0.4) !important;
+backdrop-filter: blur(12px) saturate(180%) !important;
+-webkit-backdrop-filter: blur(12px) saturate(180%) !important;
+border: 1px solid rgba(255, 255, 255, 0.6) !important;
+box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07) !important;
+}
+.glass-card-dark {
+background: rgba(15, 23, 42, 0.4) !important;
+backdrop-filter: blur(12px) saturate(180%) !important;
+-webkit-backdrop-filter: blur(12px) saturate(180%) !important;
+border: 1px solid rgba(255, 255, 255, 0.1) !important;
+box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2) !important;
+}
+.glass-nav {
+background: rgba(255, 255, 255, 0.6) !important;
+backdrop-filter: blur(20px) saturate(180%) !important;
+-webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+border: 1px solid rgba(255, 255, 255, 0.7) !important;
+}
+.glass-glow {
+position: absolute;
+width: 300px;
+height: 300px;
+background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, rgba(168, 85, 247, 0.15) 50%, transparent 100%);
+filter: blur(60px);
+z-index: 0;
+pointer-events: none;
+border-radius: 50%;
+}
+.glass-glow-alternate {
+background: radial-gradient(circle, rgba(236, 72, 153, 0.15) 0%, rgba(249, 115, 22) 0.15%, transparent 100%);
+}
+/* Button Hover Animations */
+.btn-hover-animate,
+.rounded-full.inline-flex,
+.rounded-xl.inline-flex,
+.rounded-xl.flex,
+.footer-links a {
+transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+.btn-hover-animate:hover,
+.rounded-full.inline-flex:hover,
+.rounded-xl.inline-flex:hover,
+.rounded-xl.flex:hover,
+.footer-links a:hover {
+transform: scale(1.05) !important;
+}
+.btn-hover-animate svg,
+.rounded-full.inline-flex svg,
+.rounded-xl.inline-flex svg,
+.rounded-xl.flex svg,
+.footer-links a svg {
+transition: transform 0.3s ease !important;
+}
+.btn-hover-animate:hover svg,
+.rounded-full.inline-flex:hover svg,
+.rounded-xl.inline-flex:hover svg,
+.rounded-xl.flex:hover svg,
+.footer-links a:hover svg {
+transform: rotate(45deg) !important;
+}
+/* Scroll Reveal Animation */
+.reveal {
+opacity: 0;
+transform: translateY(60px);
+transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+will-change: opacity, transform;
+}
+.reveal.active {
+opacity: 1;
+transform: translateY(0);
+}
+span.italic {
+font-style: italic;
+letter-spacing: -0.1rem;
+display: inline-block;
+margin-right: 8px;
+}
+.font-instrument-serif {
+font-family: 'LahKagok', 'Instrument Serif', serif !important;
+letter-spacing: -0.05rem;
+font-weight: 500;
+}
+/* Custom Scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+width: 8px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+background: rgba(226, 232, 240, 0.3);
+border-radius: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+background: rgba(100, 116, 139, 0.5);
+border-radius: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+background: rgba(100, 116, 139, 0.7);
+}
+/* Progress Bar */
+.progress-bar {
+transition: width 0.3s ease;
+}
+/* Input Focus States */
+input:focus {
+outline: none;
+box-shadow: 0 0 0 2px rgba(165, 201, 242, 0.5);
+}
+/* Dashed Line */
+.dashed-line {
+background-image: repeating-linear-gradient(90deg, #25305A 0, #25305A 2px, transparent 2px, transparent 12px);
+}
+</style>
+</head>
+
+<body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col font-instrument-sans">
+    <!-- Page Wrapper -->
+    <div class="flex flex-col min-h-screen">
+        <!-- Header -->
+        <header class="fixed z-50 md:px-6 lg:px-8 reveal pt-4 pr-4 pl-4 right-0 left-0 active">
+            <div class="max-w-[1680px] mr-auto ml-auto">
+                <div class="flex md:px-6 glass-nav rounded-full pt-2.5 pr-4 pb-2.5 pl-4 shadow-lg items-center justify-between">
+                    <!-- Logo -->
+                    <a href="#" class="flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 24 24">
+                            <defs>
+                                <linearGradient id="github-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="0%" style="stop-color:#E79F84"></stop>
+                                    <stop offset="100%" style="stop-color:#A5C9F2"></stop>
+                                </linearGradient>
+                            </defs>
+                            <path fill="url(#github-grad)" d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5c.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34c-.46-1.16-1.11-1.47-1.11-1.47c-.91-.62.07-.6.07-.6c1 .07 1.53 1.03 1.53 1.03c.87 1.52 2.34 1.07 2.91.83c.09-.65.35-1.09.63-1.34c-2.22-.25-4.55-1.11-4.55-4.92c0-1.11.38-2 1.03-2.71c-.1-.25-.45-1.29.1-2.64c0 0 .84-.27 2.75 1.02c.79-.22 1.65-.33 2.5-.33c.85 0 1.71.11 2.5.33c1.91-1.29 2.75-1.02 2.75-1.02c.55 1.35.2 2.39.1 2.64c.65.71 1.03 1.6 1.03 2.71c0 3.82-2.34 4.66-4.57 4.91c.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2"></path>
+                        </svg>
+                        <span class="text-xl font-semibold text-slate-900">GitHub 上传工具</span>
+                    </a>
+
+                    <!-- CTA Button -->
+                    <div class="hidden md:flex items-center gap-3">
+                        <a href="https://github.com" target="_blank" class="inline-flex items-center gap-2 hover:bg-slate-700 transition-colors text-lg font-medium text-white bg-slate-800 rounded-full pt-2 pr-4 pb-2 pl-4">
+                            访问 GitHub
+                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h10v10M7 17L17 7"></path>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="flex-1">
+            <!-- Hero Section -->
+            <section class="overflow-hidden bg-center bg-cover relative" style="background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 50%, #e2e8f0 100%)">
+                <!-- Background Gradient -->
+                <div class="bg-gradient-to-b from-blue-50 via-rose-50/30 to-white absolute top-0 right-0 bottom-0 left-0">
+                </div>
+                <div class="bg-gradient-to-t from-white to-transparent h-32 absolute right-0 bottom-0 left-0 z-[11]">
+                </div>
+
+                <!-- Content -->
+                <div class="md:px-6 lg:px-8 md:pt-48 md:pb-20 max-w-[1680px] mr-auto ml-auto pt-24 pr-4 pb-16 pl-4 relative">
+                    <div class="flex flex-col text-center items-center">
+                        <!-- Eyebrow -->
+                        <div class="reveal active" style="transition-delay: 0.1s;">
+                            <span class="text-md font-medium uppercase tracking-wider text-slate-500 mb-3 block">
+                                简单 · 快速 · 安全
+                            </span>
+                        </div>
+
+                        <!-- Heading -->
+                        <h1 class="md:text-[6rem] lg:text-[6rem] text-5xl font-normal text-slate-900 tracking-tight font-instrument-serif mt-8 mb-8 reveal max-w-5xl active" style="transition-delay: 0.2s;">
+                            文件夹
+                            <span class="italic">一键上传</span>
+                            到 GitHub
+                        </h1>
+
+                        <!-- CTA Buttons -->
+                        <div class="flex flex-col sm:flex-row gap-3 reveal mb-6 items-center active" style="transition-delay: 0.3s;">
+                            <a href="#config-section" class="inline-flex items-center gap-2 px-5 py-3 glass-nav text-slate-800 text-lg font-medium rounded-full hover:bg-white/80 transition-all shadow-sm">
+                                开始配置
+                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                    <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                        <path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z"></path>
+                                        <path d="M20 2v4m2-2h-4"></path>
+                                        <circle cx="4" cy="20" r="2"></circle>
+                                    </g>
+                                </svg>
+                            </a>
+                            <a href="#help-section" class="inline-flex items-center gap-2 px-5 py-3 glass-nav text-slate-800 text-lg font-medium rounded-full hover:bg-white/80 transition-all shadow-sm">
+                                使用帮助
+                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                    <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3m.08 4h.01"></path>
+                                    </g>
+                                </svg>
+                            </a>
+                        </div>
+
+                        <!-- Description -->
+                        <p class="md:text-lg text-lg text-slate-600 max-w-4xl mb-12 reveal active" style="transition-delay: 0.4s;">
+                            使用现代浏览器 API，安全快速地将本地文件夹上传到你的 GitHub 仓库。<br>所有数据仅在本地处理，不经过任何服务器。
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Configuration Section -->
+            <section id="config-section" class="md:py-28 overflow-hidden bg-slate-50 pt-20 pb-20 relative">
+                <!-- Background Decorative Glows -->
+                <div class="glass-glow top-0 right-0"></div>
+                <div class="glass-glow bottom-0 left-0 glass-glow-alternate"></div>
+
+                <div class="md:px-6 lg:px-8 max-w-[1680px] mr-auto ml-auto pr-4 pl-4 relative z-10">
+                    <!-- Section Header -->
+                    <div class="grid lg:grid-cols-2 gap-8 lg:gap-16 mb-12 reveal active">
+                        <div class="">
+                            <span class="text-sm font-medium uppercase tracking-wider text-slate-500 mb-3 block">
+                                Configuration
+                            </span>
+                            <h2 class="font-normal text-slate-900 tracking-tight font-instrument-serif text-6xl">
+                                配置你的
+                                <span class="italic">GitHub</span>
+                                信息
+                            </h2>
+                        </div>
+                        <div class="flex flex-col justify-center">
+                            <p class="text-lg font-bold text-slate-800 mb-4">
+                                填写你的 GitHub 仓库配置信息，使用 Personal Access Token 进行认证。
+                            </p>
+                            <p class="text-lg text-slate-600">所有数据均在本地浏览器中处理，Token 不会被发送到任何第三方服务器。</p>
+                        </div>
+                    </div>
+
+                    <!-- Configuration Cards Grid -->
+                    <div class="reveal grid grid-cols-1 lg:grid-cols-2 gap-6 active">
+                        <!-- Token Card -->
+                        <div class="flex flex-col gap-5 glass-card justify-start rounded-2xl p-6 hover:shadow-md transition-shadow">
+                            <div class="w-10 h-10 mb-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24">
+                                    <defs>
+                                        <linearGradient id="key-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                                            <stop offset="0%" style="stop-color:#E79F84"></stop>
+                                            <stop offset="50%" style="stop-color:#A5C9F2"></stop>
+                                        </linearGradient>
+                                    </defs>
+                                    <g fill="none" stroke="url(#key-grad)" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                        <path d="m15.5 7.5l2.3 2.3a1 1 0 0 0 1.4 0l2.1-2.1a1 1 0 0 0 0-1.4L19 4m-7 4l-4.9 4.9m2.9 4a3 3 0 1 0 0-6a3 3 0 0 0 0 6"></path>
+                                        <circle cx="7.5" cy="15.5" r="5.5"></circle>
+                                    </g>
+                                </svg>
+                            </div>
+                            <div class="w-full h-px dashed-line mb-2"></div>
+                            <h3 class="text-xl text-slate-900 mb-2 font-instrument-serif">
+                                GitHub Token
+                            </h3>
+                            <p class="text-lg text-slate-600 mb-4">
+                                用于认证的 Personal Access Token
+                            </p>
+                            <div class="relative">
+                                <input
+                                    type="password"
+                                    id="githubToken"
+                                    placeholder="ghp_xxxxxxxxxxxxxxxxxxxx"
+                                    class="w-full px-4 py-3 rounded-xl glass-card border-0 transition-all text-slate-800"
+                                />
+                                <button
+                                    type="button"
+                                    id="toggleTokenBtn"
+                                    class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-700"
+                                >
+                                    <svg xmlns="http://www.w3.org/2000/svg" id="eyeIcon" width="20" height="20" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M2.062 12.348a1 1 0 0 1 0-.696a10.75 10.75 0 0 1 19.876 0a1 1 0 0 1 0 .696a10.75 10.75 0 0 1-19.876 0"></path><circle cx="12" cy="12" r="3"></circle></g></svg>
+                                </button>
+                            </div>
+                            <p id="tokenWarning" class="text-sm text-red-600 hidden font-semibold">Token 格式可能不正确，应该以 ghp_ 或 github_pat_ 开头</p>
+                            <div class="mt-2 p-4 glass-card rounded-xl text-sm text-slate-600 space-y-1">
+                                <p class="font-semibold text-slate-700">如何创建 Token：</p>
+                                <p>1. 访问 <a href="https://github.com/settings/tokens" target="_blank" class="text-blue-600 underline">GitHub Token 设置</a></p>
+                                <p>2. 点击 "Generate new token (classic)"</p>
+                                <p>3. <strong class="text-red-600">必须勾选完整的 "repo" 权限</strong></p>
+                                <p>4. 生成后复制 Token（以 ghp_ 开头）</p>
+                            </div>
+                        </div>
+
+                        <!-- Repository Card -->
+                        <div class="flex flex-col gap-5 justify-start glass-card rounded-2xl p-6 hover:shadow-md transition-shadow">
+                            <div class="w-10 h-10 mb-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24">
+                                    <defs>
+                                        <linearGradient id="repo-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                                            <stop offset="0%" style="stop-color:#E79F84"></stop>
+                                            <stop offset="50%" style="stop-color:#A5C9F2"></stop>
+                                        </linearGradient>
+                                    </defs>
+                                    <g fill="none" stroke="url(#repo-grad)" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                        <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5c.08-1.25-.27-2.48-1-3.5c.28-1.15.28-2.35 0-3.5c0 0-1 0-3 1.5c-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.28 1.15-.28 2.35 0 3.5A5.4 5.4 0 0 0 4 9c0 3.5 3 5.5 6 5.5c-.39.49-.68 1.05-.85 1.65S8.93 17.38 9 18v4"></path>
+                                        <path d="M9 18c-4.51 2-5-2-7-2"></path>
+                                    </g>
+                                </svg>
+                            </div>
+                            <div class="w-full h-px dashed-line mb-2"></div>
+                            <h3 class="text-xl text-slate-900 mb-2 font-instrument-serif">
+                                仓库信息
+                            </h3>
+                            <p class="text-lg text-slate-600 mb-4">
+                                目标 GitHub 仓库的详细信息
+                            </p>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-700 mb-2">仓库所有者</label>
+                                    <input
+                                        type="text"
+                                        id="repoOwner"
+                                        placeholder="octocat"
+                                        class="w-full px-4 py-3 rounded-xl glass-card border-0 transition-all text-slate-800"
+                                    />
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-700 mb-2">仓库名称</label>
+                                    <input
+                                        type="text"
+                                        id="repoName"
+                                        placeholder="my-repo"
+                                        class="w-full px-4 py-3 rounded-xl glass-card border-0 transition-all text-slate-800"
+                                    />
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-2 gap-4 mt-2">
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-700 mb-2">分支名称</label>
+                                    <input
+                                        type="text"
+                                        id="branchName"
+                                        placeholder="main"
+                                        value="main"
+                                        class="w-full px-4 py-3 rounded-xl glass-card border-0 transition-all text-slate-800"
+                                    />
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-700 mb-2">目标路径（可选）</label>
+                                    <input
+                                        type="text"
+                                        id="targetPath"
+                                        placeholder="uploads/"
+                                        class="w-full px-4 py-3 rounded-xl glass-card border-0 transition-all text-slate-800"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Test Connection Button -->
+                    <div class="mt-12 text-center reveal active">
+                        <button
+                            id="testConnectionBtn"
+                            class="btn-hover-animate inline-flex items-center gap-2 px-6 py-3 bg-slate-800 text-white text-lg font-medium rounded-full hover:bg-slate-700 transition-colors"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></g></svg>
+                            测试连接
+                        </button>
+                        <p class="text-sm text-slate-500 mt-3">在上传前，建议先测试配置是否正确</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Upload Section -->
+            <section class="md:py-28 overflow-hidden bg-white pt-20 pb-20 relative">
+                <!-- Background Decorative -->
+                <div class="glass-glow top-0 left-0"></div>
+                <div class="glass-glow bottom-0 right-0 glass-glow-alternate"></div>
+
+                <div class="md:px-6 lg:px-8 max-w-[1680px] mr-auto ml-auto pr-4 pl-4 relative z-10">
+                    <!-- Section Header -->
+                    <div class="text-center mb-16 reveal active">
+                        <span class="text-sm font-medium uppercase tracking-wider text-slate-500 mb-3 block">
+                            Upload
+                        </span>
+                        <h2 class="text-3xl font-normal text-slate-900 tracking-tight font-instrument-serif mb-4 text-6xl">
+                            选择 <span class="italic">文件夹</span> 上传
+                        </h2>
+                        <p class="text-lg text-slate-600 max-w-xl mx-auto">
+                            使用浏览器的文件系统 API 选择本地文件夹，一键上传所有内容
+                        </p>
+                    </div>
+
+                    <!-- Upload Card -->
+                    <div class="max-w-4xl mx-auto reveal active">
+                        <div class="glass-card rounded-2xl p-8 text-center">
+                            <div class="w-20 h-20 mx-auto mb-6">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24">
+                                    <defs>
+                                        <linearGradient id="folder-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                                            <stop offset="0%" style="stop-color:#E79F84"></stop>
+                                            <stop offset="50%" style="stop-color:#A5C9F2"></stop>
+                                        </linearGradient>
+                                    </defs>
+                                    <g fill="none" stroke="url(#folder-grad)" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                        <path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2"></path>
+                                        <path d="M12 10v6m-3-3l3-3l3 3"></path>
+                                    </g>
+                                </svg>
+                            </div>
+                            <div class="w-full h-px dashed-line mb-6"></div>
+
+                            <button
+                                id="selectFolderBtn"
+                                class="btn-hover-animate inline-flex items-center gap-3 px-8 py-4 glass-card text-slate-800 text-lg font-medium rounded-full hover:bg-white/80 transition-all shadow-sm mb-4"
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M2 11.5a5 5 0 0 1 10 0a5 5 0 0 1 10 0"></path><path d="M4 13c1.5 2.5 1.5 8 7 8M20 13c-1.5 2.5-1.5 8-7 8m0-18v4"></path></g></svg>
+                                选择文件夹
+                            </button>
+
+                            <p class="text-lg text-slate-500" id="folderInfo">尚未选择文件夹</p>
+
+                            <!-- File List -->
+                            <div id="fileListContainer" class="hidden mt-8 text-left">
+                                <div class="w-full h-px dashed-line mb-4"></div>
+                                <h3 class="text-lg font-medium text-slate-700 mb-3 font-instrument-serif">文件列表</h3>
+                                <div id="fileList" class="glass-card rounded-xl p-4 max-h-64 overflow-y-auto custom-scrollbar">
+                                    <!-- Files will be listed here -->
+                                </div>
+                            </div>
+
+                            <!-- Upload Button -->
+                            <div class="mt-8">
+                                <button
+                                    id="uploadBtn"
+                                    disabled
+                                    class="btn-hover-animate inline-flex items-center gap-3 px-8 py-4 bg-slate-800 text-white text-lg font-medium rounded-full hover:bg-slate-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:bg-slate-800"
+                                >
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4m14-7l-5-5l-5 5m5-5v12"></path></svg>
+                                    开始上传
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Progress Section -->
+            <section id="progressSection" class="md:py-28 overflow-hidden pt-20 pb-20 relative hidden" style="background: linear-gradient(180deg, #25305A 0%, #1a2340 100%)">
+                <!-- Background Decorative Glows -->
+                <div class="glass-glow top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-20"></div>
+
+                <div class="mx-auto px-4 md:px-6 lg:px-8 max-w-[1680px] relative z-10">
+                    <!-- Section Header -->
+                    <div class="text-center mb-16 reveal active">
+                        <span class="text-sm font-medium uppercase tracking-wider text-slate-400 mb-3 block">
+                            Progress
+                        </span>
+                        <h2 class="text-3xl font-normal text-white tracking-tight font-instrument-serif mb-4 text-6xl">
+                            上传 <span class="italic">进度</span>
+                        </h2>
+                    </div>
+
+                    <!-- Progress Cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 max-w-5xl mx-auto">
+                        <!-- Overall Progress Card -->
+                        <div class="p-6 rounded-2xl glass-card-dark md:col-span-2">
+                            <div class="w-12 h-12 mb-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24">
+                                    <defs>
+                                        <linearGradient id="progress-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                                            <stop offset="0%" style="stop-color:#E79F84"></stop>
+                                            <stop offset="50%" style="stop-color:#A5C9F2"></stop>
+                                        </linearGradient>
+                                    </defs>
+                                    <g fill="none" stroke="url(#progress-grad)" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                        <path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48l2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48l2.83-2.83"></path>
+                                    </g>
+                                </svg>
+                            </div>
+                            <div class="w-full h-px mb-4 bg-white/20"></div>
+                            <h3 class="text-lg text-white mb-4 font-instrument-serif">
+                                总进度
+                            </h3>
+                            <div class="flex justify-between text-base text-slate-300 mb-2">
+                                <span>文件上传</span>
+                                <span id="progressText" class="font-medium">0 / 0</span>
+                            </div>
+                            <div class="w-full bg-slate-700 rounded-full h-3 overflow-hidden">
+                                <div id="progressBar" class="progress-bar h-full rounded-full" style="width: 0%; background: linear-gradient(90deg, #E79F84 0%, #A5C9F2 100%);"></div>
+                            </div>
+                        </div>
+
+                        <!-- Current File Card -->
+                        <div class="p-6 rounded-2xl glass-card-dark">
+                            <div class="w-12 h-12 mb-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24">
+                                    <defs>
+                                        <linearGradient id="file-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                                            <stop offset="0%" style="stop-color:#E79F84"></stop>
+                                            <stop offset="50%" style="stop-color:#A5C9F2"></stop>
+                                        </linearGradient>
+                                    </defs>
+                                    <g fill="none" stroke="url(#file-grad)" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                        <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path>
+                                        <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
+                                    </g>
+                                </svg>
+                            </div>
+                            <div class="w-full h-px mb-4 bg-white/20"></div>
+                            <h3 class="text-lg text-white mb-2 font-instrument-serif">
+                                当前文件
+                            </h3>
+                            <p id="currentFile" class="text-sm text-slate-300 font-mono break-all">-</p>
+                        </div>
+                    </div>
+
+                    <!-- Log Card -->
+                    <div class="max-w-5xl mx-auto">
+                        <div class="p-6 rounded-2xl glass-card-dark">
+                            <h3 class="text-lg text-white mb-4 font-instrument-serif">日志</h3>
+                            <div id="logContainer" class="glass-card-dark rounded-xl p-4 max-h-48 overflow-y-auto custom-scrollbar font-mono text-xs text-slate-300">
+                                <!-- Logs will appear here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Help Section -->
+            <section id="help-section" class="md:py-28 overflow-hidden bg-slate-50 pt-20 pb-20 relative">
+                <!-- Background Decorative Glows -->
+                <div class="glass-glow top-0 right-0"></div>
+                <div class="glass-glow bottom-0 left-0 glass-glow-alternate"></div>
+
+                <div class="md:px-6 lg:px-8 max-w-[1680px] mr-auto ml-auto pr-4 pl-4 relative z-10">
+                    <!-- Section Header -->
+                    <div class="text-center mb-16 reveal active">
+                        <span class="text-sm font-medium uppercase tracking-wider text-slate-500 mb-3 block">
+                            FAQ
+                        </span>
+                        <h2 class="text-3xl font-normal text-slate-900 tracking-tight font-instrument-serif mb-4 text-6xl">
+                            常见 <span class="italic">问题</span> 解答
+                        </h2>
+                        <p class="text-lg text-slate-600 max-w-xl mx-auto">
+                            遇到问题？这里有你需要的答案
+                        </p>
+                    </div>
+
+                    <!-- FAQ Cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 reveal active">
+                        <!-- FAQ Card 1 -->
+                        <div class="flex flex-col gap-5 glass-card justify-start rounded-2xl p-6 hover:shadow-md transition-shadow">
+                            <div class="w-10 h-10 mb-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24">
+                                    <defs>
+                                        <linearGradient id="warn-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                                            <stop offset="0%" style="stop-color:#E79F84"></stop>
+                                            <stop offset="50%" style="stop-color:#A5C9F2"></stop>
+                                        </linearGradient>
+                                    </defs>
+                                    <g fill="none" stroke="url(#warn-grad)" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                        <path d="m21.73 18l-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3M12 9v4m0 4h.01"></path>
+                                    </g>
+                                </svg>
+                            </div>
+                            <div class="w-full h-px dashed-line mb-2"></div>
+                            <h3 class="text-lg text-red-600 mb-2 font-instrument-serif font-semibold">
+                                "Resource not accessible" 错误
+                            </h3>
+                            <p class="text-base text-slate-600">
+                                这是最常见的错误！表示 Token 没有写入权限。
+                            </p>
+                            <div class="text-sm text-slate-600 space-y-1 mt-2">
+                                <p><strong>解决方法：</strong></p>
+                                <p>1. 删除当前的 Token</p>
+                                <p>2. 重新创建一个 Token</p>
+                                <p>3. <strong class="text-red-600">必须勾选完整的 "repo" 权限</strong></p>
+                            </div>
+                        </div>
+
+                        <!-- FAQ Card 2 -->
+                        <div class="flex flex-col gap-5 justify-start glass-card rounded-2xl p-6 hover:shadow-md transition-shadow">
+                            <div class="w-10 h-10 mb-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24">
+                                    <defs>
+                                        <linearGradient id="search-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                                            <stop offset="0%" style="stop-color:#E79F84"></stop>
+                                            <stop offset="50%" style="stop-color:#A5C9F2"></stop>
+                                        </linearGradient>
+                                    </defs>
+                                    <g fill="none" stroke="url(#search-grad)" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                        <circle cx="11" cy="11" r="8"></circle>
+                                        <path d="m21 21l-4.3-4.3"></path>
+                                    </g>
+                                </svg>
+                            </div>
+                            <div class="w-full h-px dashed-line mb-2"></div>
+                            <h3 class="text-lg text-slate-900 mb-2 font-instrument-serif">
+                                "Not Found" 错误
+                            </h3>
+                            <p class="text-base text-slate-600">
+                                最常见的原因：
+                            </p>
+                            <div class="text-sm text-slate-600 space-y-1 mt-2">
+                                <p>• 分支名称错误（新仓库默认是 "main"）</p>
+                                <p>• 仓库名称或所有者填写错误</p>
+                                <p>• Token 没有 repo 权限</p>
+                            </div>
+                        </div>
+
+                        <!-- FAQ Card 3 -->
+                        <div class="flex flex-col gap-5 justify-start glass-card rounded-2xl p-6 hover:shadow-md transition-shadow">
+                            <div class="w-10 h-10 mb-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24">
+                                    <defs>
+                                        <linearGradient id="help-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                                            <stop offset="0%" style="stop-color:#E79F84"></stop>
+                                            <stop offset="50%" style="stop-color:#A5C9F2"></stop>
+                                        </linearGradient>
+                                    </defs>
+                                    <g fill="none" stroke="url(#help-grad)" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3m.08 4h.01"></path>
+                                    </g>
+                                </svg>
+                            </div>
+                            <div class="w-full h-px dashed-line mb-2"></div>
+                            <h3 class="text-lg text-slate-900 mb-2 font-instrument-serif">
+                                如何创建正确权限的 Token？
+                            </h3>
+                            <div class="text-sm text-slate-600 space-y-1 mt-2">
+                                <p>1. 访问 <a href="https://github.com/settings/tokens" target="_blank" class="underline font-semibold text-blue-600">GitHub Token 设置</a></p>
+                                <p>2. 点击 "Generate new token (classic)"</p>
+                                <p>3. <strong class="text-red-600">勾选完整的 "repo" 权限</strong></p>
+                                <p>4. 点击底部 "Generate token"</p>
+                                <p>5. <strong>立即复制 Token</strong>（只显示一次）</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Browser Warning -->
+            <div id="browserWarning" class="hidden fixed bottom-4 left-4 right-4 md:left-auto md:right-4 md:w-96 z-50">
+                <div class="glass-card rounded-2xl p-6 border-amber-300 shadow-lg">
+                    <div class="flex items-start gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="text-amber-600 mt-1 flex-shrink-0"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m21.73 18l-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3M12 9v4m0 4h.01"></path></svg>
+                        <div>
+                            <h3 class="font-semibold text-amber-900 mb-2">浏览器不支持</h3>
+                            <p class="text-sm text-amber-800">
+                                您的浏览器不支持 File System Access API。请使用最新版本的 Chrome、Edge 或其他基于 Chromium 的浏览器。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="py-12 px-4 bg-slate-900 text-center">
+            <div class="max-w-[1680px] mx-auto">
+                <div class="flex items-center justify-center gap-2 mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24">
+                        <defs>
+                            <linearGradient id="footer-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" style="stop-color:#E79F84"></stop>
+                                <stop offset="100%" style="stop-color:#A5C9F2"></stop>
+                            </linearGradient>
+                        </defs>
+                        <path fill="url(#footer-grad)" d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5c.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34c-.46-1.16-1.11-1.47-1.11-1.47c-.91-.62.07-.6.07-.6c1 .07 1.53 1.03 1.53 1.03c.87 1.52 2.34 1.07 2.91.83c.09-.65.35-1.09.63-1.34c-2.22-.25-4.55-1.11-4.55-4.92c0-1.11.38-2 1.03-2.71c-.1-.25-.45-1.29.1-2.64c0 0 .84-.27 2.75 1.02c.79-.22 1.65-.33 2.5-.33c.85 0 1.71.11 2.5.33c1.91-1.29 2.75-1.02 2.75-1.02c.55 1.35.2 2.39.1 2.64c.65.71 1.03 1.6 1.03 2.71c0 3.82-2.34 4.66-4.57 4.91c.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2"></path>
+                    </svg>
+                    <span class="text-lg font-semibold text-white">GitHub 上传工具</span>
+                </div>
+                <p class="text-slate-400 text-sm mb-2">使用 File System Access API 和 GitHub REST API 构建</p>
+                <p class="text-slate-500 text-sm">所有数据仅在本地处理，安全可靠</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Main Script -->
+    <script>
+        // 检查浏览器支持
+        if (!('showDirectoryPicker' in window)) {
+            document.getElementById('browserWarning').classList.remove('hidden');
+            document.getElementById('selectFolderBtn').disabled = true;
+        }
+
+        let selectedFiles = [];
+        let directoryHandle = null;
+
+        // Elements
+        const selectFolderBtn = document.getElementById('selectFolderBtn');
+        const uploadBtn = document.getElementById('uploadBtn');
+        const testConnectionBtn = document.getElementById('testConnectionBtn');
+        const toggleTokenBtn = document.getElementById('toggleTokenBtn');
+        const eyeIcon = document.getElementById('eyeIcon');
+        const tokenWarning = document.getElementById('tokenWarning');
+        const folderInfo = document.getElementById('folderInfo');
+        const fileListContainer = document.getElementById('fileListContainer');
+        const fileList = document.getElementById('fileList');
+        const progressSection = document.getElementById('progressSection');
+        const progressBar = document.getElementById('progressBar');
+        const progressText = document.getElementById('progressText');
+        const currentFile = document.getElementById('currentFile');
+        const logContainer = document.getElementById('logContainer');
+
+        // GitHub Config
+        const githubTokenInput = document.getElementById('githubToken');
+        const repoOwnerInput = document.getElementById('repoOwner');
+        const repoNameInput = document.getElementById('repoName');
+        const branchNameInput = document.getElementById('branchName');
+        const targetPathInput = document.getElementById('targetPath');
+
+        // 切换 Token 显示
+        toggleTokenBtn.addEventListener('click', () => {
+            if (githubTokenInput.type === 'password') {
+                githubTokenInput.type = 'text';
+                eyeIcon.innerHTML = '<g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M6.873 17.129c-1.845-1.31-3.305-3.014-4.13-4.09a1 1 0 0 1 0-1.078C4.236 9.013 7.818 5 12 5c1.876 0 3.63.807 5.13 1.874"></path><path d="M14.13 9.887a3 3 0 1 0-4.243 4.242M4 20L20 4M10 18.704A7.1 7.1 0 0 0 12 19c4.182 0 7.764-4.013 9.257-6.96a1 1 0 0 0-.001-1.079a12.9 12.9 0 0 0-1.256-1.842"></path></g>';
+            } else {
+                githubTokenInput.type = 'password';
+                eyeIcon.innerHTML = '<g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M2.062 12.348a1 1 0 0 1 0-.696a10.75 10.75 0 0 1 19.876 0a1 1 0 0 1 0 .696a10.75 10.75 0 0 1-19.876 0"></path><circle cx="12" cy="12" r="3"></circle></g>';
+            }
+        });
+
+        // Token 格式验证
+        githubTokenInput.addEventListener('input', () => {
+            const token = githubTokenInput.value.trim();
+            if (token.length > 0) {
+                if (!token.startsWith('ghp_') && !token.startsWith('github_pat_')) {
+                    tokenWarning.classList.remove('hidden');
+                } else {
+                    tokenWarning.classList.add('hidden');
+                }
+            } else {
+                tokenWarning.classList.add('hidden');
+            }
+        });
+
+        // Log function
+        function log(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString('zh-CN');
+            const color = type === 'error' ? 'text-red-400' : type === 'success' ? 'text-green-400' : 'text-slate-300';
+            const logEntry = document.createElement('div');
+            logEntry.className = `${color} mb-1`;
+            logEntry.textContent = `[${timestamp}] ${message}`;
+            logContainer.appendChild(logEntry);
+            logContainer.scrollTop = logContainer.scrollHeight;
+        }
+
+        // 递归读取文件夹
+        async function readDirectory(dirHandle, path = '') {
+            const files = [];
+
+            for await (const entry of dirHandle.values()) {
+                const entryPath = path ? `${path}/${entry.name}` : entry.name;
+
+                if (entry.kind === 'file') {
+                    const file = await entry.getFile();
+                    files.push({
+                        path: entryPath,
+                        file: file,
+                        handle: entry
+                    });
+                } else if (entry.kind === 'directory') {
+                    const subFiles = await readDirectory(entry, entryPath);
+                    files.push(...subFiles);
+                }
+            }
+
+            return files;
+        }
+
+        // 测试连接
+        testConnectionBtn.addEventListener('click', async () => {
+            const token = githubTokenInput.value.trim();
+            const owner = repoOwnerInput.value.trim();
+            const repo = repoNameInput.value.trim();
+            const branch = branchNameInput.value.trim() || 'main';
+
+            if (!token || !owner || !repo) {
+                alert('请先填写 GitHub Token、仓库所有者和仓库名称');
+                return;
+            }
+
+            testConnectionBtn.disabled = true;
+            testConnectionBtn.innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="animate-spin"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path stroke-dasharray="16" stroke-dashoffset="16" d="M12 3c4.97 0 9 4.03 9 9"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.3s" values="16;0"></animate><animateTransform attributeName="transform" dur="1.5s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"></animateTransform></path></g></svg>
+                测试中...
+            `;
+
+            try {
+                const repoData = await verifyRepository(token, owner, repo);
+                await verifyBranch(token, owner, repo, branch);
+                await testWritePermission(token, owner, repo, branch);
+
+                testConnectionBtn.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="text-green-400"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 6L9 17l-5-5"></path></svg>
+                    连接成功
+                `;
+                testConnectionBtn.className = 'btn-hover-animate inline-flex items-center gap-2 px-6 py-3 bg-green-600 text-white text-lg font-medium rounded-full hover:bg-green-500 transition-colors';
+
+                alert(`✓ 所有测试通过！\n\n仓库: ${owner}/${repo}\n分支: ${branch}\n状态: ${repoData.private ? '私有' : '公开'}\n权限: ✓ 读取 ✓ 写入\n\n配置完全正确，可以开始上传文件。`);
+
+                setTimeout(() => {
+                    testConnectionBtn.innerHTML = `
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></g></svg>
+                        测试连接
+                    `;
+                    testConnectionBtn.className = 'btn-hover-animate inline-flex items-center gap-2 px-6 py-3 bg-slate-800 text-white text-lg font-medium rounded-full hover:bg-slate-700 transition-colors';
+                }, 3000);
+
+            } catch (err) {
+                testConnectionBtn.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="text-red-400"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 6L6 18M6 6l12 12"></path></svg>
+                    连接失败
+                `;
+                testConnectionBtn.className = 'btn-hover-animate inline-flex items-center gap-2 px-6 py-3 bg-red-600 text-white text-lg font-medium rounded-full hover:bg-red-500 transition-colors';
+
+                alert(`✗ 连接测试失败\n\n${err.message}`);
+
+                setTimeout(() => {
+                    testConnectionBtn.innerHTML = `
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></g></svg>
+                        测试连接
+                    `;
+                    testConnectionBtn.className = 'btn-hover-animate inline-flex items-center gap-2 px-6 py-3 bg-slate-800 text-white text-lg font-medium rounded-full hover:bg-slate-700 transition-colors';
+                }, 3000);
+            }
+
+            testConnectionBtn.disabled = false;
+        });
+
+        // 选择文件夹
+        selectFolderBtn.addEventListener('click', async () => {
+            try {
+                directoryHandle = await window.showDirectoryPicker();
+                folderInfo.textContent = `已选择: ${directoryHandle.name}`;
+
+                selectedFiles = await readDirectory(directoryHandle);
+
+                fileList.innerHTML = '';
+                selectedFiles.forEach(fileInfo => {
+                    const fileItem = document.createElement('div');
+                    fileItem.className = 'flex items-center gap-2 py-2 border-b border-slate-200 last:border-b-0';
+                    fileItem.innerHTML = `
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" class="text-slate-500 flex-shrink-0"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 2v4a2 2 0 0 0 2 2h4"></path></svg>
+                        <span class="text-sm text-slate-700 font-mono flex-1 truncate">${fileInfo.path}</span>
+                        <span class="text-xs text-slate-500 flex-shrink-0">${(fileInfo.file.size / 1024).toFixed(2)} KB</span>
+                    `;
+                    fileList.appendChild(fileItem);
+                });
+
+                fileListContainer.classList.remove('hidden');
+                uploadBtn.disabled = false;
+
+                log(`已扫描 ${selectedFiles.length} 个文件`, 'success');
+
+            } catch (err) {
+                if (err.name !== 'AbortError') {
+                    log(`选择文件夹失败: ${err.message}`, 'error');
+                }
+            }
+        });
+
+        // Base64 编码
+        function arrayBufferToBase64(buffer) {
+            let binary = '';
+            const bytes = new Uint8Array(buffer);
+            const len = bytes.byteLength;
+            for (let i = 0; i < len; i++) {
+                binary += String.fromCharCode(bytes[i]);
+            }
+            return btoa(binary);
+        }
+
+        // 验证仓库是否存在
+        async function verifyRepository(token, owner, repo) {
+            const url = `https://api.github.com/repos/${owner}/${repo}`;
+            const response = await fetch(url, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Accept': 'application/vnd.github.v3+json'
+                }
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                if (response.status === 404) {
+                    throw new Error(`仓库 ${owner}/${repo} 不存在或无权访问`);
+                } else if (response.status === 401) {
+                    throw new Error(`Token 认证失败\n\n请检查:\n• Token 是否正确复制\n• Token 是否已过期`);
+                } else if (response.status === 403) {
+                    throw new Error(`访问被拒绝\n\n可能原因:\n• Token 权限不足\n• API 请求限流`);
+                } else {
+                    throw new Error(`验证失败: ${errorData.message || '未知错误'}`);
+                }
+            }
+
+            return await response.json();
+        }
+
+        // 验证分支是否存在
+        async function verifyBranch(token, owner, repo, branch) {
+            const url = `https://api.github.com/repos/${owner}/${repo}/branches/${branch}`;
+            const response = await fetch(url, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Accept': 'application/vnd.github.v3+json'
+                }
+            });
+
+            if (!response.ok) {
+                if (response.status === 404) {
+                    const branchesUrl = `https://api.github.com/repos/${owner}/${repo}/branches`;
+                    try {
+                        const branchesResponse = await fetch(branchesUrl, {
+                            headers: {
+                                'Authorization': `Bearer ${token}`,
+                                'Accept': 'application/vnd.github.v3+json'
+                            }
+                        });
+                        if (branchesResponse.ok) {
+                            const branches = await branchesResponse.json();
+                            const branchNames = branches.map(b => b.name).join(', ');
+                            throw new Error(`分支 "${branch}" 不存在\n\n该仓库现有的分支：${branchNames}`);
+                        }
+                    } catch (e) {}
+                    throw new Error(`分支 "${branch}" 不存在\n\n常见分支名称：main, master, develop`);
+                } else {
+                    const errorData = await response.json();
+                    throw new Error(`验证分支失败: ${errorData.message || '未知错误'}`);
+                }
+            }
+
+            return await response.json();
+        }
+
+        // 测试写入权限
+        async function testWritePermission(token, owner, repo, branch) {
+            const testFileName = `.github-uploader-test-${Date.now()}.txt`;
+            const url = `https://api.github.com/repos/${owner}/${repo}/contents/${testFileName}`;
+
+            const createResponse = await fetch(url, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Accept': 'application/vnd.github.v3+json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    message: 'Test write permission',
+                    content: btoa('This is a test file. It will be deleted immediately.'),
+                    branch: branch
+                })
+            });
+
+            if (!createResponse.ok) {
+                const errorData = await createResponse.json();
+                if (createResponse.status === 403) {
+                    throw new Error(`Token 没有写入权限！\n\n请检查:\n1. 是否勾选了完整的 "repo" 权限\n2. Token 类型是否正确\n\n详细错误: ${errorData.message}`);
+                } else {
+                    throw new Error(`写入测试失败: ${errorData.message}`);
+                }
+            }
+
+            const createData = await createResponse.json();
+
+            // 删除测试文件
+            try {
+                await fetch(url, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Accept': 'application/vnd.github.v3+json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        message: 'Delete test file',
+                        sha: createData.content.sha,
+                        branch: branch
+                    })
+                });
+            } catch (err) {}
+
+            return true;
+        }
+
+        // 上传单个文件到 GitHub
+        async function uploadFileToGitHub(token, owner, repo, branch, path, content, message) {
+            const url = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
+
+            let sha = null;
+            try {
+                const checkResponse = await fetch(url + `?ref=${branch}`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Accept': 'application/vnd.github.v3+json'
+                    }
+                });
+
+                if (checkResponse.ok) {
+                    const data = await checkResponse.json();
+                    sha = data.sha;
+                }
+            } catch (err) {}
+
+            const body = {
+                message: message,
+                content: content,
+                branch: branch
+            };
+
+            if (sha) {
+                body.sha = sha;
+            }
+
+            const response = await fetch(url, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Accept': 'application/vnd.github.v3+json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(body)
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || '上传失败');
+            }
+
+            return await response.json();
+        }
+
+        // 开始上传
+        uploadBtn.addEventListener('click', async () => {
+            const token = githubTokenInput.value.trim();
+            const owner = repoOwnerInput.value.trim();
+            const repo = repoNameInput.value.trim();
+            const branch = branchNameInput.value.trim() || 'main';
+            const targetPath = targetPathInput.value.trim();
+
+            if (!token || !owner || !repo) {
+                log('请填写所有必需的配置信息', 'error');
+                alert('请填写 GitHub Token、仓库所有者和仓库名称');
+                return;
+            }
+
+            if (selectedFiles.length === 0) {
+                log('没有选择任何文件', 'error');
+                return;
+            }
+
+            uploadBtn.disabled = true;
+            selectFolderBtn.disabled = true;
+
+            progressSection.classList.remove('hidden');
+            logContainer.innerHTML = '';
+
+            // Scroll to progress section
+            progressSection.scrollIntoView({ behavior: 'smooth' });
+
+            log(`正在验证 GitHub 配置...`, 'info');
+
+            try {
+                await verifyRepository(token, owner, repo);
+                log(`✓ 仓库验证成功`, 'success');
+
+                await verifyBranch(token, owner, repo, branch);
+                log(`✓ 分支验证成功`, 'success');
+
+            } catch (err) {
+                log(`✗ 验证失败: ${err.message}`, 'error');
+                alert(`配置验证失败:\n\n${err.message}`);
+                uploadBtn.disabled = false;
+                selectFolderBtn.disabled = false;
+                return;
+            }
+
+            log(`开始上传 ${selectedFiles.length} 个文件到 ${owner}/${repo} (${branch})`, 'info');
+
+            let successCount = 0;
+            let failCount = 0;
+
+            for (let i = 0; i < selectedFiles.length; i++) {
+                const fileInfo = selectedFiles[i];
+                const fullPath = targetPath ? `${targetPath}/${fileInfo.path}` : fileInfo.path;
+
+                const progress = ((i + 1) / selectedFiles.length * 100).toFixed(0);
+                progressBar.style.width = `${progress}%`;
+                progressText.textContent = `${i + 1} / ${selectedFiles.length}`;
+                currentFile.textContent = fullPath;
+
+                try {
+                    const arrayBuffer = await fileInfo.file.arrayBuffer();
+                    const base64Content = arrayBufferToBase64(arrayBuffer);
+
+                    await uploadFileToGitHub(
+                        token,
+                        owner,
+                        repo,
+                        branch,
+                        fullPath,
+                        base64Content,
+                        `Upload ${fileInfo.path}`
+                    );
+
+                    log(`✓ 成功: ${fullPath}`, 'success');
+                    successCount++;
+
+                    await new Promise(resolve => setTimeout(resolve, 100));
+
+                } catch (err) {
+                    log(`✗ 失败: ${fullPath} - ${err.message}`, 'error');
+                    failCount++;
+
+                    if (failCount >= 5 && failCount > successCount) {
+                        const shouldContinue = confirm(`已有 ${failCount} 个文件上传失败。是否继续？\n\n最后的错误: ${err.message}`);
+                        if (!shouldContinue) {
+                            log(`用户终止上传`, 'info');
+                            break;
+                        }
+                    }
+                }
+            }
+
+            const totalProcessed = successCount + failCount;
+            log(`上传完成！成功: ${successCount}, 失败: ${failCount}`, successCount === totalProcessed ? 'success' : 'info');
+
+            if (failCount > 0) {
+                alert(`上传完成\n\n成功: ${successCount}\n失败: ${failCount}\n\n请查看日志了解详细错误信息`);
+            } else {
+                alert(`上传完成！\n\n成功上传 ${successCount} 个文件`);
+            }
+
+            uploadBtn.disabled = false;
+            selectFolderBtn.disabled = false;
+        });
+
+        // 页面加载动画
+        document.addEventListener('DOMContentLoaded', () => {
+            const reveals = document.querySelectorAll('.reveal');
+            reveals.forEach((element, index) => {
+                setTimeout(() => {
+                    element.classList.add('active');
+                }, index * 100);
+            });
+        });
+
+        // Scroll reveal animation
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
